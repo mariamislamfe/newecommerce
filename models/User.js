@@ -19,8 +19,9 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   cartItems: {
-    type: mongoose.Schema.Types.Mixed,
-    default: {},
+    type: Map,
+    of: mongoose.Schema.Types.Mixed,
+    default: {}
   }
 }, { minimize: false });
 
