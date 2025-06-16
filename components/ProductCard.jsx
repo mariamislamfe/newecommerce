@@ -5,6 +5,8 @@ import { useAppContext } from "@/context/AppContext";
 import { useUser } from "@clerk/nextjs";
 
 const ProductCard = ({ product }) => {
+  if (!product) return null; // ✅ تأمين لو null
+
   const { currency, router } = useAppContext();
   const { isSignedIn } = useUser();
 
@@ -13,7 +15,6 @@ const ProductCard = ({ product }) => {
       router.push("/cart");
       return;
     }
-    // لو مسجل دخوله، نوديه على صفحة الأوردر
     router.push("/checkout");
   };
 
@@ -27,8 +28,8 @@ const ProductCard = ({ product }) => {
     >
       <div className="cursor-pointer group relative bg-gray-500/10 rounded-lg w-full h-52 flex items-center justify-center">
         <Image
-          src={product.image[0]}
-          alt={product.name}
+          src={product.image?.[0] || "/fallback.png"} // ✅ صورة بديلة لو مفيش
+          alt={product.name || "Product image"} // ✅ نص بديل لو مفيش
           className="group-hover:scale-105 transition object-cover w-4/5 h-4/5 md:w-full md:h-full"
           width={800}
           height={800}
@@ -39,11 +40,12 @@ const ProductCard = ({ product }) => {
       </div>
 
       <p className="md:text-base font-medium pt-2 w-full truncate">
-        {product.name}
+        {product.name || "Unnamed product"} {/* ✅ اسم بديل لو مفيش */}
       </p>
       <p className="w-full text-xs text-gray-500/70 max-sm:hidden truncate">
-        {product.description}
+        {product.description || "No description available."}
       </p>
+
       <div className="flex items-center gap-2">
         <p className="text-xs">{4.5}</p>
         <div className="flex items-center gap-0.5">
