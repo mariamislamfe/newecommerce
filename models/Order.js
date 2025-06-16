@@ -9,7 +9,7 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   amount: { type: Number, required: true },
-  address: { type: Object, required: true },
+  address: { type: mongoose.Schema.Types.ObjectId, ref: "Address", required: true },
   status: { type: String, default: "order placed" },
   date: { type: Date, default: Date.now },
 });
