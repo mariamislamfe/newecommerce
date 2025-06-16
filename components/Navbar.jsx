@@ -34,7 +34,7 @@ const BagIcon = () => (
 );
 
 const Navbar = () => {
-  const { isSeller, router } = useAppContext();
+  const { isSeller, router, getCartCount } = useAppContext();
   const { isSignedIn } = useUser();
   const { openSignIn } = useClerk();
 
@@ -83,13 +83,20 @@ const Navbar = () => {
         />
         {isSignedIn ? (
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => router.push("/cart")}
-              className="p-1 hover:bg-gray-100 rounded-full"
-              title="Cart"
-            >
-              <CartIcon />
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => router.push("/cart")}
+                className="p-1 hover:bg-gray-100 rounded-full"
+                title="Cart"
+              >
+                <CartIcon />
+              </button>
+              {getCartCount() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                  {getCartCount()}
+                </span>
+              )}
+            </div>
             <button
               onClick={() => router.push("/my-orders")}
               className="p-1 hover:bg-gray-100 rounded-full"
@@ -126,13 +133,20 @@ const Navbar = () => {
         )}
         {isSignedIn ? (
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => router.push("/cart")}
-              className="p-1 hover:bg-gray-100 rounded-full"
-              title="Cart"
-            >
-              <CartIcon />
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => router.push("/cart")}
+                className="p-1 hover:bg-gray-100 rounded-full"
+                title="Cart"
+              >
+                <CartIcon />
+              </button>
+              {getCartCount() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                  {getCartCount()}
+                </span>
+              )}
+            </div>
             <button
               onClick={() => router.push("/my-orders")}
               className="p-1 hover:bg-gray-100 rounded-full"

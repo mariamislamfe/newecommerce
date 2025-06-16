@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { assets, productsDummyData } from "@/assets/assets";
+import { assets } from "@/assets/assets";
 import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import Footer from "@/components/seller/Footer";
@@ -32,6 +32,24 @@ const ProductList = () => {
     }
   };
 
+  const handleDeleteProduct = async (productId) => {
+    try {
+      const token = await getToken();
+      const { data } = await axios.delete(`/api/product/${productId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (data.success) {
+        toast.success("Product deleted successfully");
+        fetchSellerProduct();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       fetchSellerProduct();
@@ -46,7 +64,7 @@ const ProductList = () => {
         <div className="w-full md:p-10 p-4">
           <h2 className="pb-4 text-lg font-medium">All Product</h2>
           <div className="flex flex-col items-center max-w-4xl w-full overflow-hidden rounded-md bg-white border border-gray-500/20">
-            <table className=" table-fixed w-full overflow-hidden">
+            <table className="table-fixed w-full overflow-hidden">
               <thead className="text-gray-900 text-sm text-left">
                 <tr>
                   <th className="w-2/3 md:w-2/5 px-4 py-3 font-medium truncate">
@@ -81,17 +99,26 @@ const ProductList = () => {
                     </td>
                     <td className="px-4 py-3">${product.offerPrice}</td>
                     <td className="px-4 py-3 max-sm:hidden">
-                      <button
-                        onClick={() => router.push(`/product/${product._id}`)}
-                        className="flex items-center gap-1 px-1.5 md:px-3.5 py-2 bg-orange-600 text-white rounded-md"
-                      >
-                        <span className="hidden md:block">Visit</span>
-                        <Image
-                          className="h-3.5"
-                          src={assets.redirect_icon}
-                          alt="redirect_icon"
-                        />
-                      </button>
+                      <div className="flex flex-col items-center justify-center gap-2">
+                        <button
+                          onClick={() => router.push(`/product/${product._id}`)}
+                          className="flex items-center gap-1 px-2 md:px-4 py-2 bg-orange-600 text-white rounded-md min-w-[80px] justify-center"
+                        >
+                          <span className="hidden md:block">Visit</span>
+                          <Image
+                            className="h-4 w-4"
+                            src={assets.redirect_icon}
+                            alt="redirect_icon"
+                          />
+                        </button>
+
+                        <button
+                          onClick={() => handleDeleteProduct(product._id)}
+                          className="flex items-center gap-1 px-2 md:px-4 py-2 bg-red-600 text-white rounded-md min-w-[80px] justify-center"
+                        >
+                          <span className="hidden md:block">Delete</span>
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
