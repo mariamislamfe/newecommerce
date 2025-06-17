@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { assets, orderDummyData } from "@/assets/assets";
+import { assets } from "@/assets/assets";
 import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import Footer from "@/components/Footer";
@@ -23,7 +23,6 @@ const MyOrders = () => {
       });
       if (data.success) {
         setOrders(data.orders.reverse());
-        setLoading(false);
       } else {
         toast.error(data.message);
       }
@@ -64,35 +63,46 @@ const MyOrders = () => {
                       <span className="font-medium text-base">
                         {order.items
                           .map(
-                            (item) => item.product.name + ` x ${item.quantity}`
+                            (item) =>
+                              (item.product
+                                ? item.product.name
+                                : "Product Deleted") + ` x ${item.quantity}`
                           )
                           .join(", ")}
                       </span>
                       <span>Items : {order.items.length}</span>
                     </p>
                   </div>
+
                   <div>
                     <p>
                       <span className="font-medium">
-                        {order.address.fullName}
+                        {order.address?.fullName || "No Address"}
                       </span>
                       <br />
-                      <span>{order.address.area}</span>
+                      <span>{order.address?.area || ""}</span>
                       <br />
-                      <span>{`${order.address.city}, ${order.address.state}`}</span>
+                      <span>
+                        {order.address
+                          ? `${order.address.city}, ${order.address.state}`
+                          : ""}
+                      </span>
                       <br />
-                      <span>{order.address.phoneNumber}</span>
+                      <span>{order.address?.phoneNumber || ""}</span>
                     </p>
                   </div>
+
                   <p className="font-medium my-auto">
                     {currency}
                     {order.amount}
                   </p>
+
                   <div>
                     <p className="flex flex-col">
                       <span>Method : COD</span>
                       <span>
-                        Date : {new Date(order.date).toLocaleDateString()}
+                        Date :{" "}
+                        {new Date(order.date).toLocaleDateString("en-GB")}
                       </span>
                       <span>Payment : Pending</span>
                     </p>

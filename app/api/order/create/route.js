@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import Product from "@/models/product";
 import User from "@/models/User";
 import Order from "@/models/Order";
+import Address from "@/models/Address";
 import { inngest } from "@/config/inngest";
 
 export async function POST(request) {
