@@ -3,6 +3,7 @@ import { assets } from "@/assets/assets";
 import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import { useUser } from "@clerk/nextjs";
+import { toast } from "react-hot-toast";
 
 const ProductCard = ({ product }) => {
   if (!product) return null; // ✅ تأمين لو null
@@ -12,10 +13,10 @@ const ProductCard = ({ product }) => {
 
   const handleBuyNow = () => {
     if (!isSignedIn) {
-      router.push("/cart");
+      toast.error("You must be signed in to buy now");
       return;
     }
-    router.push("/checkout");
+    router.push("/cart");
   };
 
   return (

@@ -1,7 +1,7 @@
 import { getAuth } from "@clerk/nextjs/server";
 import connectDB from "@/config/db";
-import Order from "@/models/Order";
-import Address from "@/models/Address"; // 🟢 أضف السطر دا
+import Address from "@/models/Address";
+import Order from "@/models/Order"; 
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
