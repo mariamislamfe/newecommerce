@@ -1,13 +1,41 @@
+// "use client";
+// import { useEffect } from "react";
+// import { useRouter } from "next/navigation";
+
+// export default function HomeRedirect() {
+//   const router = useRouter();
+
+//   useEffect(() => {
+//     router.replace("/splash");
+//   }, []);
+
+//   return null;
+// }
+
 "use client";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
+import HeaderSlider from "@/components/HeaderSlider";
+import HomeProducts from "@/components/HomeProducts";
+import Banner from "@/components/Banner";
+import NewsLetter from "@/components/NewsLetter";
+import FeaturedProduct from "@/components/FeaturedProduct";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-export default function HomeRedirect() {
-  const router = useRouter();
+const Home = () => {
+  return (
+    <>
+      <Navbar />
+      <div className="px-6 md:px-16 lg:px-32">
+        <HeaderSlider />
+        <HomeProducts />
+        <FeaturedProduct />
+        <Banner />
+        <NewsLetter />
+      </div>
+      <Footer />
+    </>
+  );
+};
 
-  useEffect(() => {
-    router.replace("/splash");
-  }, []);
-
-  return null;
-}
+export default Home;
