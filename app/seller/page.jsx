@@ -5,15 +5,26 @@ import Image from "next/image";
 import { useAppContext } from "@/context/AppContext";
 import toast from "react-hot-toast";
 import axios from "axios";
+
 const AddProduct = () => {
   const { getToken } = useAppContext();
 
   const [files, setFiles] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("Earphone");
+  const [category, setCategory] = useState("Classic Pants");
   const [price, setPrice] = useState("");
   const [offerPrice, setOfferPrice] = useState("");
+
+  const categories = [
+    "Classic Pants",
+    "Linen Shirts",
+    "Creatine",
+    "Vitamins",
+    "Fat Burner",
+    "Amino Acids",
+    "Accessories",
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +50,7 @@ const AddProduct = () => {
         toast.success(data.message);
         setName("");
         setDescription("");
-        setCategory("Earphone");
+        setCategory("Protein");
         setPrice("");
         setOfferPrice("");
         setFiles([]);
@@ -70,7 +81,6 @@ const AddProduct = () => {
                   hidden
                 />
                 <Image
-                  key={index}
                   className="max-w-24 cursor-pointer"
                   src={
                     files[index]
@@ -85,6 +95,7 @@ const AddProduct = () => {
             ))}
           </div>
         </div>
+
         <div className="flex flex-col gap-1 max-w-md">
           <label className="text-base font-medium" htmlFor="product-name">
             Product Name
@@ -99,6 +110,7 @@ const AddProduct = () => {
             required
           />
         </div>
+
         <div className="flex flex-col gap-1 max-w-md">
           <label
             className="text-base font-medium"
@@ -116,6 +128,7 @@ const AddProduct = () => {
             required
           ></textarea>
         </div>
+
         <div className="flex items-center gap-5 flex-wrap">
           <div className="flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="category">
@@ -125,17 +138,16 @@ const AddProduct = () => {
               id="category"
               className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
               onChange={(e) => setCategory(e.target.value)}
-              defaultValue={category}
+              value={category}
             >
-              <option value="Earphone">Earphone</option>
-              <option value="Headphone">Headphone</option>
-              <option value="Watch">Watch</option>
-              <option value="Smartphone">Smartphone</option>
-              <option value="Laptop">Laptop</option>
-              <option value="Camera">Camera</option>
-              <option value="Accessories">Accessories</option>
+              {categories.map((cat, i) => (
+                <option key={i} value={cat}>
+                  {cat}
+                </option>
+              ))}
             </select>
           </div>
+
           <div className="flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="product-price">
               Product Price
@@ -150,6 +162,7 @@ const AddProduct = () => {
               required
             />
           </div>
+
           <div className="flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="offer-price">
               Offer Price
@@ -165,6 +178,7 @@ const AddProduct = () => {
             />
           </div>
         </div>
+
         <button
           type="submit"
           className="px-8 py-2.5 bg-orange-600 text-white font-medium rounded"
@@ -172,7 +186,6 @@ const AddProduct = () => {
           ADD
         </button>
       </form>
-      {/* <Footer /> */}
     </div>
   );
 };
